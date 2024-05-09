@@ -1,113 +1,41 @@
+Here's the corrected version of the README with grammar errors fixed:
 
-# `flutter_bluetooth_serial`
+**TRAKR**
 
-[![pub package](https://img.shields.io/pub/v/flutter_bluetooth_serial.svg)](https://pub.dartlang.org/packages/flutter_bluetooth_serial)
+![HOMESCREEN](https://github.com/nirvanabaid/bluetooth-app/blob/main/app_screenshots/photo_2023-11-01%2013.54.56.jpeg?raw=true)
 
-Flutter basic implementation for Classical Bluetooth (only RFCOMM for now).
+This is the home screen of the app. When Bluetooth is enabled for the first time, the app will ask for permissions. Please provide all the permissions requested by the app.
 
+**CONNECT TO DEVICE**
 
-## Features
+[NOTE: Before connecting the device through the app, pair the device to the phone from settings.]
 
-The first goal of this project, started by @edufolly was making an interface for Serial Port Protocol (HC-05 Adapter). Now the plugin features:
+Toggle on the 'Enable Bluetooth' button if it's not already enabled, then click on the 'Connect to a device' button.
 
-+ Adapter status monitoring,
+![Device Discovery Screen](https://github.com/nirvanabaid/bluetooth-app/blob/main/app_screenshots/photo_2023-11-01%2013.54.53.jpeg?raw=true)
 
-+ Turning adapter on and off,
+A list of paired devices will be shown, and the available devices will be highlighted. Click on the device you want to use.
 
-+ Opening settings,
+If you want to rediscover devices, click on the refresh button in the top right corner.
 
-+ Discovering devices (and requesting discoverability),
+![Device Choosing Screen](https://github.com/nirvanabaid/bluetooth-app/blob/main/app_screenshots/photo_2023-11-01%2013.54.51.jpeg?raw=true)
 
-+ Listing bonded devices and pairing new ones,
+Choose the type of device to be used. If a custom command is needed, choose the 'read and write' option.
 
-+ Connecting to multiple devices at the same time,
+[NOTE: In the case of FP and canLogger, there is a text box for a custom command, so the 'read and write' option shouldn't be used.]
 
-+ Sending and receiving data (multiple connections).
+![Read and Write Screen](https://github.com/nirvanabaid/bluetooth-app/blob/main/app_screenshots/photo_2023-11-01%2013.54.35.jpeg?raw=true)
 
-The plugin (for now) uses Serial Port profile for moving data over RFCOMM, so make sure there is running Service Discovery Protocol that points to SP/RFCOMM channel of the device. There could be ![HOMESCREEN](https://hacklabsol-my.sharepoint.com/:i:/g/personal/nirvana_hacklab_solutions/ERvxUs99PJdBlouZTpQsz1EBl_Jw48C9nApvNNqFPwvTrA?e=YXpePx)
+![Custom command for FP and canLogger]([https://github.com/nirvanabaid/bluetooth-app/blob/main/app_screenshots/photo_2023-11-01%2013.54.48.jpeg?raw=true](https://github.com/nirvanabaid/bluetooth-app/blob/main/app_screenshots/photo_2023-11-01%2013.54.45.jpeg?raw=true))
 
-For now there is only Android support.
+After choosing the device, select the command option. If the command returns something, it will be displayed in a dialogue box.
 
+If the command is used for sending data to the device, a dialog with a list of attributes will be shown. Make sure to fill in all the attributes before clicking the 'configure' button.
 
-## Getting Started
+![Device Homescreen](https://github.com/nirvanabaid/bluetooth-app/blob/main/app_screenshots/photo_2023-11-01%2013.54.48.jpeg?raw=true) ![Screen for sending commands](https://github.com/nirvanabaid/bluetooth-app/blob/main/app_screenshots/photo_2023-11-01%2013.54.46.jpeg)
 
-#### Depending 
-```yaml
-# Add dependency to `pubspec.yaml` of your project.
-dependencies:
-    # ...
-    flutter_bluetooth_serial: ^0.3.2
-```
+If "Chat Log" is displayed in the app header instead of "Live Chat," it means that the device is disconnected. To reconnect, click on the refresh button in the top right corner.
 
-#### Installing
+![Device disconnected](https://github.com/nirvanabaid/bluetooth-app/blob/main/app_screenshots/photo_2023-11-01%2013.54.43.jpeg?raw=true)
 
-```bash
-# With pub manager
-pub get
-# or with Flutter
-flutter pub get
-```
-
-#### Importing
-```dart
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-```
-
-#### Usage
-
-You should look to the Dart code of the library (mostly documented functions) or to the examples code. 
-```dart
-// Some simplest connection :F
-try {
-    BluetoothConnection connection = await BluetoothConnection.toAddress(address);
-    print('Connected to the device');
-
-    connection.input.listen((Uint8List data) {
-        print('Data incoming: ${ascii.decode(data)}');
-        connection.output.add(data); // Sending data
-
-        if (ascii.decode(data).contains('!')) {
-            connection.finish(); // Closing connection
-            print('Disconnecting by local host');
-        }
-    }).onDone(() {
-        print('Disconnected by remote request');
-    });
-}
-catch (exception) {
-    print('Cannot connect, exception occured');
-}
-```
-
-Note: Work is underway to make the communication easier than operations on byte streams. See #41 for discussion about the topic.
-
-#### Examples
-
-Check out [example application](example/README.md) with connections with both Arduino HC-05 and Raspberry Pi (RFCOMM) Bluetooth interfaces.
-
-Main screen and options |  Discovery and connecting  |  Simple chat with server  |  Background connection  |
-:---:|:---:|:---:|:---:|
-![](https://hacklabsol-my.sharepoint.com/:i:/g/personal/nirvana_hacklab_solutions/Ed1jPSAJEvpIqLNd00XwOJQBpRoP1odrFyBj3_firZTcwg?e=5FJbZC)  |  ![](https://i.imgur.com/zruuelZ.png)  |  ![](https://i.imgur.com/y5mTUey.png)  |  ![](https://i.imgur.com/3wvwDVo.png)
-
-
-## To-do list
-
-+ Add some utils to easier manage `BluetoothConnection` (see discussion #41),
-+ Allow connection method/protocol/UUID specification,
-+ Listening/server mode,
-+ Recognizing and displaying `BluetoothClass` of device,
-+ Maybe integration with `flutter_blue` one day ;)
-
-You might also want to check [milestones](https://github.com/edufolly/flutter_bluetooth_serial/milestones).
-
-
-## Credits
-
-- [Eduardo Folly](mailto:edufolly@gmail.com)
-- [Martin Mauch](mailto:martin.mauch@gmail.com)
-- [Patryk Ludwikowski](mailto:patryk.ludwikowski.7@gmail.com)
-
-After version 0.3.0 we have a lot of collaborators. If you would like to be credited, please send me an [email](mailto:edufolly@gmail.com).
-
-#### Thanks for all the support!# bluetooth_app
-# bluetooth-app
+If, during any process, the app starts to behave abnormally or the desired output is not shown on the summary screen, try restarting the app.
